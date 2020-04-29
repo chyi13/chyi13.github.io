@@ -15,7 +15,18 @@ categories: [web]
 
 ### 同源定义
 
-如果两个 URL 的 protocol、port (如果有指定的话)和 host 都相同的话，则这两个 URL 是同源。这个方案也被称为“协议/主机/端口元组”，或者直接是 “元组”。（“元组” 是指一组项目构成的整体，双重/三重/四重/五重/等的通用形式）。
+如果两个 URL 的 protocol、port (如果有指定的话)和 host 都相同的话，则这两个 URL 是同源。
+
+> https://www.iwencai.com/a/index.html
+
+| URL  | 结果 |
+| ------------- | ------------- |
+| https://www.iwencai.com/b/index.html | 同源 |
+| https://www.iwencai.com/a/index1.html  | 同源 |
+| http://www.iwencai.com/a/index1.html  | 不同源 |
+| http://www.iwencai.com:81/a/index1.html | 不同源 |
+|https://ai.iwencai.com/a/index.html | 不同源 
+
 
 ## 访问类型
 
@@ -38,13 +49,47 @@ categories: [web]
 ```
 #### 如何允许跨源访问
 
-CORS
+跨域资源共享(CORS) 是一种机制，它使用额外的HTTP头来告诉浏览器让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+
+比如https://www.iwencai.com/ 里面发起跨源Http请求(XMLHttpRequest Fetch)，会被浏览器拦截，除非响应报文包含了正确CORS响应头。
+
+> 并不一定是浏览器限制了发起跨站请求，也可能是跨站请求可以正常发起，但是返回结果被浏览器拦截了
+
+浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
+
+* 简单请求
+
+```
+1. 使用下列方法之一：
+GET
+HEAD
+POST
+2. Fetch 规范定义了对 CORS 安全的首部字段集合，不得人为设置该集合之外的其他首部字段。该集合为：
+	Accept
+	Accept-Language
+	Content-Language
+	Content-Type （需要注意额外的限制）
+	DPR
+	Downlink
+	Save-Data
+	Viewport-Width
+	Width
+3. Content-Type 的值仅限于下列三者之一：
+	text/plain
+	multipart/form-data
+	application/x-www-form-urlencoded
+4. 请求中的任意XMLHttpRequestUpload 对象均没有注册任何事件监听器；XMLHttpRequestUpload 对象可以使用 XMLHttpRequest.upload 属性访问。
+请求中没有使用 ReadableStream 对象。
+```
+
+* 非简单请求
+
 
 #### 如何阻止跨源访问
 
-CSRF(Cross-site request forgery)
+CSRF(Cross-site request forgery) 跨站请求伪造
 
-
+![https://www.imperva.com/learn/application-security/csrf-cross-site-request-forgery/](/img/posts/cross-origin/csrf-cross-site-request-forgery.png)
 
 
 ### 2. 脚本API访问
