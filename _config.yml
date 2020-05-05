@@ -34,6 +34,8 @@ navbar-links:
 # Remove this parameter if you don't want an image in the navbar
 avatar: "/img/avatar-icon.jpg"
 
+favicon: "/img/rick.png"
+
 # If you want to Fhave an image logo in the top-left corner instead of the title text,
 # then specify the following parameter
 # title-img: /path/to/image

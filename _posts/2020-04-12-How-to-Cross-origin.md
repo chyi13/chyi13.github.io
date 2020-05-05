@@ -7,15 +7,21 @@ categories: [web]
 
 # Same-origin Policy
 
-## 什么是同源
+![Cache meme logo](/img/posts/cross-origin/cross-origin-sky.png)
+
+## 1. 什么是同源
 
 同源策略是一个重要的安全策略，它用于限制一个origin的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。
 
 > 浏览器安全的基石是"同源政策"（same-origin policy）
 
-### 同源定义
+### 1.1 为什么有同源策略?
 
-如果两个 URL 的 protocol、port (如果有指定的话)和 host 都相同的话，则这两个 URL 是同源。
+图 TODO 读取Cookie发送请求到iwencai.com
+
+### 1.2 同源定义
+
+如果两个 URL 的 protocol、port 和 host 都相同的话，则这两个 URL 是同源。
 
 > https://www.iwencai.com/a/index.html
 
@@ -28,64 +34,33 @@ categories: [web]
 |https://ai.iwencai.com/a/index.html | 不同源 
 
 
-## 访问类型
-
-### 1. 网络访问
+## 2. 跨源网络访问
 
 同源策略控制不同源之间的交互，例如在使用XMLHttpRequest 或 <img> 标签时则会受到同源策略的约束。这些交互通常分为三类：
 
 * 跨域写操作（Cross-origin writes）一般是被允许的。例如链接（links），重定向以及表单提交。特定少数的HTTP请求需要添加 preflight。
-* 跨域资源嵌入（Cross-origin embedding）一般是被允许（后面会举例说明）。
+* 跨域资源嵌入（Cross-origin embedding）一般是被允许。
 * 跨域读操作（Cross-origin reads）一般是不被允许的，但常可以通过内嵌资源来巧妙的进行读取访问。例如，你可以读取嵌入图片的高度和宽度，调用内嵌脚本的方法，或availability of an embedded resource.
 
-```
-1. <script src="..."></script> 标签嵌入跨域脚本。语法错误信息只能被同源脚本中捕捉到。
-2. <link rel="stylesheet" href="..."> 标签嵌入CSS。由于CSS的松散的语法规则，CSS的跨域需要一个设置正确的 HTTP 头部 Content-Type 。不同浏览器有不同的限制： IE, Firefox, Chrome, Safari (跳至CVE-2010-0051)部分 和 Opera。
-3. 通过 <img> 展示的图片。支持的图片格式包括PNG,JPEG,GIF,BMP,SVG,...
-4. 通过 <video> 和 <audio> 播放的多媒体资源。
-5. 通过 <object>、 <embed> 和 <applet> 嵌入的插件。
-6. 通过 @font-face 引入的字体。一些浏览器允许跨域字体（ cross-origin fonts），一些需要同源字体（same-origin fonts）。
-7. 通过 <iframe> 载入的任何资源。站点可以使用 X-Frame-Options 消息头来阻止这种形式的跨域交互。
-```
-#### 如何允许跨源访问
+比如:
 
-跨域资源共享(CORS) 是一种机制，它使用额外的HTTP头来告诉浏览器让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+| 类型 | 结果 |
+| ------------- | ------------- |
+| iframes | iframe的跨源embedding通常是允许的，但是跨域的读操作是不行的 |
+| CSS | 可以通过 `<link rel="stylesheet" href="...">`embedding，CSS跨域需要设置正确的Http头部 Content-Type |
+| forms | 跨域的URL可以作为 form的action属性，可以提交表单到跨域的地址 |
+| images | 图片的跨域embedding是允许的，但是读取跨域的图片（在canvas中使用Javascript加载跨域的图片） |
+| multimedia | `<video>` 和 `<audio>` 播放的多媒体资源可以跨域embedding |
+| script | 跨域的`<script src="..."></script>`是允许的，但使用一些的API会被禁止 |
 
-比如https://www.iwencai.com/ 里面发起跨源Http请求(XMLHttpRequest Fetch)，会被浏览器拦截，除非响应报文包含了正确CORS响应头。
+### 2.1 如何允许跨源访问
 
-> 并不一定是浏览器限制了发起跨站请求，也可能是跨站请求可以正常发起，但是返回结果被浏览器拦截了
 
-浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
-
-* 简单请求
-
-```
-1. 使用下列方法之一：
-GET
-HEAD
-POST
-2. Fetch 规范定义了对 CORS 安全的首部字段集合，不得人为设置该集合之外的其他首部字段。该集合为：
-	Accept
-	Accept-Language
-	Content-Language
-	Content-Type （需要注意额外的限制）
-	DPR
-	Downlink
-	Save-Data
-	Viewport-Width
-	Width
-3. Content-Type 的值仅限于下列三者之一：
-	text/plain
-	multipart/form-data
-	application/x-www-form-urlencoded
-4. 请求中的任意XMLHttpRequestUpload 对象均没有注册任何事件监听器；XMLHttpRequestUpload 对象可以使用 XMLHttpRequest.upload 属性访问。
-请求中没有使用 ReadableStream 对象。
-```
 
 * 非简单请求
 
 
-#### 如何阻止跨源访问
+### 2.2 如何阻止跨源访问
 
 CSRF(Cross-site request forgery) 跨站请求伪造
 
@@ -132,7 +107,18 @@ B网页就可以读到这个 Cookie。
 
 > Set-Cookie: key=value; domain=.example.com; path=/
 
-##### SameSite Cookie
+
+## 3. 跨域资源共享CORS
+
+跨域资源共享(CORS) 是一种机制，它使用额外的HTTP头来告诉浏览器让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。
+
+比如https://www.iwencai.com/ 里面发起跨源Http请求(XMLHttpRequest Fetch)，会被浏览器拦截，除非响应报文包含了正确CORS响应头。
+
+> 并不一定是浏览器限制了发起跨站请求，也可能是跨站请求可以正常发起，但是返回结果被浏览器拦截了
+
+浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。
+
+## 4. SameSite Cookie
 
 ## 
 
