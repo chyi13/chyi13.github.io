@@ -218,23 +218,63 @@ Content-Type: application/json;charset=utf-8
 
 ## 7. SameSite Cookie
 
-## 
-
-###
+### 7.1 SameSite
 
 
-## 8. 问题
+|Origin A	| Origin B |	Explanation of whether Origin A and B are "same-site" or "cross-site"
+| ------------- | ------------- | ------------- |
+| https://www.example.com:443	| https://www.evil.com:443 | cross-site: different domains |
+|									| https://login.example.com:443 | same-site: different subdomains don't matter |
+|									| http://www.example.com:443 | same-site: different schemes don't matter |
+| | https://www.example.com:80 | same-site: different ports don't matter |
+| | https://www.example.com:443 | same-site: exact match |
+| | https://www.example.com	| same-site: ports don't matter |
 
-## 9. 总结
+### 7.2 Chrome限制
 
+![cross-origin error](/img/posts/cross-origin/same-site-cookie.png)
+
+![cross-origin flag](/img/posts/cross-origin/same-site-flag.png)
+
+2016年引进了`SameSite`属性，来对Cookie的能够使用的环境进行限制。`SameSite`有3种取值: `Strict`, `Lax`, `None`。
+
+* `Strict`
+
+完全禁止第三方Cookie，跨站点的请求都不会发送Cookie，
+
+* `Lax`
+
+稍微放松一点，基本上也禁止第三方Cookie，有些情况例外：
+
+| 请求类型 | 示例 | 正常情况 | Lax |
+| ------------- | ------------- | ------------- | ------------- |
+| 链接	|  `<a href="..."></a>` | 发送 Cookie	| 发送 Cookie | 
+| 预加载 | `<link rel="prerender" href="..."/>` | 发送 Cookie | 发送 Cookie | 
+| GET 表单 | `<form method="GET" action="...">` | 发送 Cookie | 发送 Cookie |
+| POST 表单 | `<form method="POST" action="...">` | 发送 Cookie | 不发送 | 
+|  iframe	| `<iframe src="..."></iframe>`	| 发送 Cookie | 不发送 | 
+|  AJAX | `$.get("...")` | 发送 Cookie | 不发送 |
+| Image | `<img src="...">` | 发送 Cookie | 不发送 | 
+
+Chrome默认设置Lax
+
+* `None`
+
+设置为`None`时，需要同时设置为`Secure`（Cookie只能在HTTPS协议下才能发送），否则不发送。
 
 ## References
 
-https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
-http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
-http://www.ruanyifeng.com/blog/2016/04/cors.html
-https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+[1] https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy
+
+[2] http://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html
+
+[3] http://www.ruanyifeng.com/blog/2016/04/cors.html
+
+[4] https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+
+[5] https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+
+[6] https://web.dev/samesite-cookies-explained/
 
 
 
