@@ -214,7 +214,16 @@ Content-Type: application/json;charset=utf-8
 
 ## 6. JSONP
 
+JSON with Padding
 
+```
+    <script>
+        var myFunc = function(data) {
+            console.log(data);
+        }
+    </script>
+    <script src="xyz.com?wrap=myFunc"></script>
+```
 
 ## 7. SameSite Cookie
 
