@@ -325,9 +325,15 @@ public class CrackWebViewModule implements IXposedHookLoadPackage {
 
 
 [1] https://baike.baidu.com/item/Xposed%E6%A1%86%E6%9E%B6/16859077
+
 [2] https://www.infoq.cn/news/2016/05/lody-interview
+
 [3] https://github.com/asLody/VirtualApp
+
 [4] https://github.com/android-hacker/VirtualXposed
+
 [5] https://medium.com/androiddevnotes/the-internals-of-android-apk-build-process-article-5b68c385fb20
+
 [6] https://developer.chrome.com/docs/devtools/remote-debugging/
+
 [7] https://www.preemptive.com/obfuscation
