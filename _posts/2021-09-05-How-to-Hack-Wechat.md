@@ -9,7 +9,7 @@ categories: [Android]
 
 ## 1. 微信爬取公众号链接
 
-2015年底来同花顺的第一个任务: 
+2015年底来公司的第一个任务: 
 > 爬取手机微信公众号的链接
 
 当时参考的微信抢红包的通用方案: Android的Accessibility辅助功能, 通过Accessibility模拟点击微信每一篇公众号, 并通过通过公众号右上角的复制链接功能, 将链接复制到剪切板里, 之后读取剪切板, 从而得到对应的链接. 
@@ -34,7 +34,11 @@ categories: [Android]
 
 * VirutalXposed
 > VirtualXposed 是基于VirtualApp 和 epic 在非ROOT环境下运行Xposed模块的实现（支持5.0~10.0)。[4]
+
 通过VirtualXposed你可以在VirtualApp环境下，在非ROOT的手机上安装Xposed插件！
+
+下载直接安装 
+> https://github.com/asLody/SandVXposed
 
 ### 2.2 Xposed插件
 
@@ -81,6 +85,9 @@ callStaticMethod(findClass(VersionParam.networkRequest, classLoader), VersionPar
 
 ![apk loading process](../img/posts/how-to-hack-wechat/apk_load_process.png)
 
+* 代码混淆Obfuscation
+![Obfuscation](../img/posts/how-to-hack-wechat/Rename-Obfuscation-Example.png)
+
 ### 3.2 Android Studio
 
 ![android studio logo](../img/posts/how-to-hack-wechat/androidstudio_logo.png)
@@ -116,18 +123,144 @@ Davlik Debug Monitor Server(DDMS)或直接使用Android Studio可以通过tracev
 
 ### 3.1 模拟发送文本消息
 
-先连接`ROOT`手机, 启动`DDMS`, 输入内容, 发送一条消息.
+先连接`ROOT`手机, 启动`DDMS`, 输入内容, 点击发送按钮, 发送一条消息, 记录的方法堆栈如下:
 
-![ddms logo](../img/posts/how-to-hack-wechat/ddms.png)
+![ddms wechat1](../img/posts/how-to-hack-wechat/ddms_wechat_1.png)
 
 #### 猜测微信如何写代码?
 
-众所周知发送消息的方法需要2个参数: 发送给谁以及发送内容.
+如果你写代码, 应该会封装一个方法发送微信消息, 这个方法的参数应该就是个String类型的值, 顺着`onClick`点击方法堆栈往下找找到下面的方法:
 
-### 3.2 模拟发送动图消息
+> com.tencent.mm.ui.chatting.d.bb.hL
 
-连接`ROOT`手机, 启动`DDMS`, 输入内容, 发送一条消息.
+通过jadx找到对应方法的class源码具体内容如下:
 
+```
+ private boolean hL(String str, final int i) {
+    int i2 = 0;
+    AppMethodBeat.i(35586);
+    final String filterString = Util.getFilterString(str);
+    if (filterString == null || filterString.length() == 0) {
+        Log.e("MicroMsg.ChattingUI.SendTextComponent", "doSendMessage null");
+        AppMethodBeat.o(35586);
+        return false;
+    }
+    cn cnVar = new cn();
+    cnVar.fyi.fyk = filterString;
+    cnVar.fyi.context = this.fgR.WQv.getContext();
+    cnVar.fyi.username = this.fgR.getTalkerUserName();
+    EventCenter.instance.publish(cnVar);
+    if (cnVar.fyj.fyl) {
+        AppMethodBeat.o(35586);
+        return true;
+    }
+    boolean z = WXHardCoderJNI.hcSendMsgEnable;
+    int i3 = WXHardCoderJNI.hcSendMsgDelay;
+    int i4 = WXHardCoderJNI.hcSendMsgCPU;
+    int i5 = WXHardCoderJNI.hcSendMsgIO;
+    if (WXHardCoderJNI.hcSendMsgThr) {
+        i2 = h.aHJ().getProcessTid();
+    }
+    this.WOv = WXHardCoderJNI.startPerformance(z, i3, i4, i5, i2, WXHardCoderJNI.hcSendMsgTimeout, g.SCENE_SEND_MSG, WXHardCoderJNI.hcSendMsgAction, "MicroMsg.ChattingUI.SendTextComponent");
+    com.tencent.mm.ui.chatting.e.a.hRl().post(new Runnable() {
+        /* class com.tencent.mm.ui.chatting.d.bb.AnonymousClass1 */
+
+        public final void run() {
+            AppMethodBeat.i(35582);
+            if (bb.this.fgR == null) {
+                Log.w("MicroMsg.ChattingUI.SendTextComponent", "NULL == mChattingContext");
+                AppMethodBeat.o(35582);
+                return;
+            }
+            com.tencent.mm.plugin.report.service.g.ada(20);
+            if (bb.a(bb.this)) {
+                bb.this.fgR.getSelfUserName();
+                bh.aGY().a(new com.tencent.mm.au.a(bb.this.fgR.NKq.field_username, filterString), 0);
+                AppMethodBeat.o(35582);
+                return;
+            }
+            if (bb.this.fgR.bC(k.class).getCount() == 0 && as.bvJ(bb.this.fgR.getTalkerUserName())) {
+                cg.bfp().e(10076, new Object[]{1});
+            }
+            String talkerUserName = bb.this.fgR.getTalkerUserName();
+            if (Util.isNullOrNil(talkerUserName)) {
+                Log.e("MicroMsg.ChattingUI.SendTextComponent", "toUser is null or nil!");
+                AppMethodBeat.o(35582);
+                return;
+            }
+            int QZ = ab.QZ(talkerUserName);
+            String str = filterString;
+            String str2 = null;
+            try {
+                str2 = bb.this.fgR.bC(ac.class).bzn(talkerUserName);
+            } catch (NullPointerException e) {
+                Log.printErrStackTrace("MicroMsg.ChattingUI.SendTextComponent", e, "", new Object[0]);
+            }
+            if (Util.isNullOrNil(str2)) {
+                Log.w("MicroMsg.ChattingUI.SendTextComponent", "tempUser is null");
+                AppMethodBeat.o(35582);
+                return;
+            }
+            u bC = bb.this.fgR.bC(u.class);
+            o.e wD = o.WI(str2).wD(QZ);
+            wD.cUP = bC.hPj().ht(talkerUserName, i);
+            wD.content = str;
+            wD.toUser = str2;
+            wD.lUp = bC.hPj().nt(talkerUserName, str);
+            wD.lUq = 5;
+            o.b bnl = wD.bnl();
+            com.tencent.mm.modelmulti.i iVar = bnl.lUi;
+            if (iVar instanceof com.tencent.mm.modelmulti.i) {
+                bb.this.fgR.bC(ac.class).g(iVar);
+            }
+            bnl.aEv();
+            if (ab.QT(talkerUserName)) {
+                bh.aGY().a(new m(q.auR(), filterString + " key " + cl.hAM() + " local key " + cl.hAL() + "NetType:" + NetStatusUtil.getNetTypeString(bb.this.fgR.WQv.getContext().getApplicationContext()) + " hasNeon: " + n.aux() + " isArmv6: " + n.auz() + " isArmv7: " + n.auy()), 0);
+            }
+            AppMethodBeat.o(35582);
+        }
+    });
+    this.fgR.Gi(true);
+    AppMethodBeat.o(35586);
+    return true;
+}
+```
+
+其中可以猜测出:
+> bh.aGY().a(new com.tencent.mm.au.a(bb.this.fgR.NKq.field_username, filterString), 0);
+
+是发送消息的方法. 其中参数为`com.tencent.mm.au.a`类型, 并且构造函数明显就是发送的用户, 以及发送的字符串.
+
+```
+public a(String str, String str2) {
+    boolean z = true;
+    AppMethodBeat.i(20484);
+    this.fvt.setStatus(1);
+    this.fvt.Jm(str);
+    this.fvt.setCreateTime(bq.RP(str));
+    this.fvt.pJ(1);
+    this.fvt.setContent(str2);
+    this.fvt.setType(ab.QZ(str));
+    bh.beI();
+    long aM = c.bbO().aM(this.fvt);
+    Assert.assertTrue(aM == -1 ? false : z);
+    Log.i("MicroMsg.NetSceneSendMsgFake", "new msg inserted to db , local id = ".concat(String.valueOf(aM)));
+    AppMethodBeat.o(20484);
+}
+```
+
+所以最终模拟发送消息的调用流程如下:
+
+```
+// 构建发送消息方法
+requestCaller = XposedHelpers.callStaticMethod(findClass("com.tencent.mm.model.bh", classLoader), "aGY");
+// 构建发送对象
+Object textMessageObject = XposedHelpers.newInstance(findClass("com.tencent.mm.au.a", classLoader), username, sendString);
+// 发送
+XposedHelpers.callMethod(requestCaller, "a", textMessageObject, 0);
+```
+
+### 3.2 TODO 模拟发送动图消息
 
 
 ## 4. 浏览器Debug
@@ -197,3 +330,4 @@ public class CrackWebViewModule implements IXposedHookLoadPackage {
 [4] https://github.com/android-hacker/VirtualXposed
 [5] https://medium.com/androiddevnotes/the-internals-of-android-apk-build-process-article-5b68c385fb20
 [6] https://developer.chrome.com/docs/devtools/remote-debugging/
+[7] https://www.preemptive.com/obfuscation
