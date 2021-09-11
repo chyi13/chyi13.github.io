@@ -2,7 +2,7 @@
 layout: post
 title:  How to Hack Wechat[1]
 date:   2021-09-05 17:55:00 +0800
-categories: [Android]
+tags: [Android]
 ---
 
 ![how to cross origin sky](../img/posts/how-to-hack-wechat/iceland_2014.jpeg)

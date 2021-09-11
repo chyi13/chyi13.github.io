@@ -2,7 +2,7 @@
 layout: post
 title:  How to Cross-origin
 date:   2020-04-16 00:30:00 +0800
-categories: [web]
+tags: [web]
 ---
 
 ![how to cross origin sky](/img/posts/cross-origin/cross-origin-sky.png)
