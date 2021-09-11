@@ -28,11 +28,14 @@ categories: [Android]
 
 ### 2.1 VirtualApp和VirtualXposed
 * VirtualApp
+
 ![virtualapp logo](../img/posts/how-to-hack-wechat/virtualapp_logo.png)
+
 高中大神Lody[2]的`VirtualApp`[3]出现了, 通过Hook、反射可以在你手机上构建一个虚拟的App运行环境，就像一个沙盒一样，以此达到`ROOT`的效果。
 > VirtualApp(以下简称：VA)是一款运行于Android系统的沙盒产品，可以理解为轻量级的“Android虚拟机”。其产品形态为高可扩展，可定制的集成SDK，您可以基于VA或者使用VA定制开发各种看似不可能完成的项目。VA目前被广泛应用于APP多开、手游境外加速、手游租号、手游手柄免激活、区块链、移动办公安全、军队政府数据隔离、手机模拟信息、脚本自动化、插件化开发、无感知热更新、云控等技术领域。
 
 * VirutalXposed
+
 > VirtualXposed 是基于VirtualApp 和 epic 在非ROOT环境下运行Xposed模块的实现（支持5.0~10.0)。[4]
 
 通过VirtualXposed你可以在VirtualApp环境下，在非ROOT的手机上安装Xposed插件！
@@ -86,6 +89,7 @@ callStaticMethod(findClass(VersionParam.networkRequest, classLoader), VersionPar
 ![apk loading process](../img/posts/how-to-hack-wechat/apk_load_process.png)
 
 * 代码混淆Obfuscation
+
 ![Obfuscation](../img/posts/how-to-hack-wechat/Rename-Obfuscation-Example.png)
 
 ### 3.2 Android Studio
@@ -276,6 +280,7 @@ if (ApplicationInfo.FLAG_DEBUGGABLE) {
 	webview.setWebContentsDebuggingEnabled(true);
 }
 ```
+
 这个模式一般App的开发者都会加上只在Debug的环境下才能打开的限制, 也就是我们所谓的Debug包才能连接PC看到网页`Inspect`. 
 
 那么我们能够在非Debug包的环境下, 也就是去应用市场上下个包来`Inspect`他们的页面, 看一下他们是怎么写网页吗?
