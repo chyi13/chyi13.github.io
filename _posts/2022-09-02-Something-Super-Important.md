@@ -63,6 +63,8 @@ tags: [Life Forever]
 
 27.  Filipino - Mahal kita
 
+![Philippines](/img/posts/something-to-a-girl/2020-09-15-Philippines.jpg){: width="560" }
+
 28.  Finnish - Mina rakastan sinua
 
 29.  French - Je t’aime
@@ -108,6 +110,8 @@ tags: [Life Forever]
 48.  Italian - Ti amo
 
 49.  Japanese - Aishiteru or Anata ga daisuki desu 私はあなたを愛して
+
+![Japan](/img/posts/something-to-a-girl/2020-10-10-Japan.jpg){: width="560" }
 
 50.  Kannada - Naanu ninna preetisuttene ನಾನುನಿನ್ನಪ್ರೀತಿಸುತ್ತೇನೆ
 
@@ -198,6 +202,8 @@ tags: [Life Forever]
 90.  Telugu - Nenu ninnu premistunnanu  నేనునిన్నుప్రేమిస్తున్నాను
 
 91.  Thai - Phom rak khun  ผมรักคุณ
+
+![Thailand](/img/posts/something-to-a-girl/2020-09-11-Thailand.jpg){: width="560" }
 
 92.  Tunisian - Ha eh bak
 
