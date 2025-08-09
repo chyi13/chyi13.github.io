@@ -5,12 +5,20 @@ date:   2025-08-08 23:00:00 +0800
 tags: [Life Forever]
 ---
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1050826819&bvid=BV1mH4y1E7XE&cid=1446031947&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+<iframe width="640" height="480" src="//player.bilibili.com/player.html?isOutside=true&aid=1050826819&bvid=BV1mH4y1E7XE&cid=1446031947&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
+阿歪，
 
+重新认识的这两个月，生活像是被悄悄镀上了一层温柔的光。从前平淡的日子里突然有了期待，每个清晨醒来都带着浅浅的雀跃，每个周末来临都藏着满心的欢喜 —— 因为知道，这些时光里会有你的踪迹。
 
-我爱写晴朗 和你的模样
-这一段好时光
-以后慢慢给你讲
+你问我为什么喜欢你？其实答案藏在每一个细碎的瞬间里。我喜欢看你手拿鸭腿时毫无顾忌的可爱模样，嘴角沾着酱汁也笑得眉眼弯弯；喜欢看你伏案读书复习时的专注侧脸，阳光落在发梢，连时光都变得安静温柔；更喜欢看你在工作中从容不迫的样子，把繁杂事务打理得井井有条，成为团队里让人安心的骨干力量。就连面对未知领域时，你那份手到擒来的笃定模样，都让我觉得无比心动。在我眼里，你就是这样完美的阿歪。
 
-![Girl](/img/posts/something-to-a-girl/girl.jpg){: width="560" }
+能在人海中遇见你，大概是老天赐给我最幸运的礼物。既然缘分让我们走到一起，我真的希望能牵着你的手，永远不放开。
+
+还记得之前一起许愿要去的 100 个地方吗？那些藏在地图上的风景，那些期待已久的远方，我想和你一起慢慢抵达，就像《藏星》里唱的那样
+
+> 我爱写晴朗 和你的模样
+> 这一段好时光
+> 以后慢慢给你讲
+
+![Girl](/img/posts/something-to-a-girl/girl2.jpg){: width="280" }
